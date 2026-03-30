@@ -170,7 +170,18 @@ export default function UserManagement({ user: adminUser }: { user: User }) {
                     </td>
                     <td className="px-8 py-6">
                       <p className="text-xs text-gray-500">
-                        {u.createdAt ? format(new Date(u.createdAt), "MMM d, yyyy") : "N/A"}
+                        {u.createdAt ? (
+                          (() => {
+                            try {
+                              const date = u.createdAt.seconds 
+                                ? new Date(u.createdAt.seconds * 1000) 
+                                : new Date(u.createdAt);
+                              return isNaN(date.getTime()) ? "N/A" : format(date, "MMM d, yyyy");
+                            } catch (e) {
+                              return "N/A";
+                            }
+                          })()
+                        ) : "N/A"}
                       </p>
                     </td>
                     <td className="px-8 py-6">

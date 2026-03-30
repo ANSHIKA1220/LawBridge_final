@@ -189,7 +189,18 @@ export default function ClientRequests({ user: advocateUser }: { user: User }) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Calendar size={14} />
-                  {req.createdAt ? format(new Date(req.createdAt.seconds * 1000), "MMM d, yyyy") : "N/A"}
+                  {req.createdAt ? (
+                    (() => {
+                      try {
+                        const date = req.createdAt.seconds 
+                          ? new Date(req.createdAt.seconds * 1000) 
+                          : new Date(req.createdAt);
+                        return isNaN(date.getTime()) ? "N/A" : format(date, "MMM d, yyyy");
+                      } catch (e) {
+                        return "N/A";
+                      }
+                    })()
+                  ) : "N/A"}
                 </div>
                 {req.status === 'Pending' ? (
                   <div className="flex items-center gap-3">

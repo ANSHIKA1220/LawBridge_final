@@ -124,7 +124,18 @@ export default function NotificationCenter({ user }: { user: User }) {
                             <p className="text-xs text-gray-500 leading-relaxed mb-2">{n.message}</p>
                             <div className="flex items-center gap-2 text-[10px] text-gray-400">
                               <Clock size={12} />
-                              {n.createdAt ? format(new Date(n.createdAt.seconds * 1000), "HH:mm, MMM d") : "..."}
+                              {n.createdAt ? (
+                                (() => {
+                                  try {
+                                    const date = n.createdAt.seconds 
+                                      ? new Date(n.createdAt.seconds * 1000) 
+                                      : new Date(n.createdAt);
+                                    return isNaN(date.getTime()) ? "..." : format(date, "HH:mm, MMM d");
+                                  } catch (e) {
+                                    return "...";
+                                  }
+                                })()
+                              ) : "..."}
                             </div>
                           </div>
                         </div>

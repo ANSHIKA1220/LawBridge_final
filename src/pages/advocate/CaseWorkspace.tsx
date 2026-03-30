@@ -164,7 +164,18 @@ export default function CaseWorkspace({ user }: { user: User }) {
                   }`}>
                     <p className="text-sm leading-relaxed">{msg.text}</p>
                     <p className={`text-[10px] mt-2 ${msg.senderId === user.uid ? 'text-white/50' : 'text-gray-400'}`}>
-                      {msg.createdAt ? format(new Date(msg.createdAt.seconds * 1000), "HH:mm") : "..."}
+                      {msg.createdAt ? (
+                        (() => {
+                          try {
+                            const date = msg.createdAt.seconds 
+                              ? new Date(msg.createdAt.seconds * 1000) 
+                              : new Date(msg.createdAt);
+                            return isNaN(date.getTime()) ? "..." : format(date, "HH:mm");
+                          } catch (e) {
+                            return "...";
+                          }
+                        })()
+                      ) : "..."}
                     </p>
                   </div>
                 </div>
@@ -294,7 +305,18 @@ export default function CaseWorkspace({ user }: { user: User }) {
               <div className="flex items-center justify-between pt-8 border-t border-gray-50">
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Calendar size={14} />
-                  {ws.createdAt ? format(new Date(ws.createdAt.seconds * 1000), "MMM d, yyyy") : "N/A"}
+                  {ws.createdAt ? (
+                    (() => {
+                      try {
+                        const date = ws.createdAt.seconds 
+                          ? new Date(ws.createdAt.seconds * 1000) 
+                          : new Date(ws.createdAt);
+                        return isNaN(date.getTime()) ? "N/A" : format(date, "MMM d, yyyy");
+                      } catch (e) {
+                        return "N/A";
+                      }
+                    })()
+                  ) : "N/A"}
                 </div>
                 <div className="flex items-center gap-2 text-accent font-bold text-sm">
                   Open Workspace

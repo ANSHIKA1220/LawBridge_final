@@ -122,6 +122,10 @@ export default function Dashboard({ user }: DashboardProps) {
         { title: "Report Generated", desc: "Weekly platform usage summary", icon: <FileText /> }
       ];
     }
+    return [
+      { title: "Welcome to LawBridge", desc: "Start exploring legal resources", icon: <Sparkles /> },
+      { title: "Profile Setup", desc: "Complete your profile information", icon: <UserCircle /> }
+    ];
   };
 
   const links = getSidebarLinks();
@@ -370,11 +374,11 @@ export default function Dashboard({ user }: DashboardProps) {
         <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 sticky top-32">
           <div className="flex items-center gap-4 mb-10 pb-8 border-b border-gray-100">
             <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold text-lg">
-              {user.name.charAt(0).toUpperCase()}
+              {user.name?.charAt(0).toUpperCase() || "U"}
             </div>
             <div>
-              <h3 className="font-bold text-primary">{user.name}</h3>
-              <p className="text-xs text-gray-400">{user.role} Portal</p>
+              <h3 className="font-bold text-primary">{user.name || "User"}</h3>
+              <p className="text-xs text-gray-400">{user.role || "Guest"} Portal</p>
             </div>
           </div>
 
@@ -408,10 +412,10 @@ export default function Dashboard({ user }: DashboardProps) {
       {/* Main Dashboard Content */}
       <div className="flex-grow space-y-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold serif text-primary">Welcome back, {user.name.split(' ')[0]}</h1>
+          <h1 className="text-4xl font-bold serif text-primary">Welcome back, {(user.name || "User").split(' ')[0]}</h1>
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <Clock size={16} />
-            Last active: 2 hours ago
+            Last active: Just now
           </div>
         </div>
 
