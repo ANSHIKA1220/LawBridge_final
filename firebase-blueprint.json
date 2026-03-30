@@ -1,0 +1,202 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user profile information and role.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier of the user." },
+        "name": { "type": "string", "description": "The full name of the user." },
+        "email": { "type": "string", "format": "email", "description": "The email address of the user." },
+        "role": { "type": "string", "enum": ["Citizen", "Student", "Advocate", "Admin"], "description": "The role of the user in the system." },
+        "status": { "type": "string", "enum": ["Active", "Suspended", "Pending Verification"], "description": "The account status." },
+        "barId": { "type": "string", "description": "Bar Council ID for advocates." },
+        "specialization": { "type": "string", "description": "Legal specialization for advocates." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user profile was created." }
+      },
+      "required": ["uid", "name", "email", "role", "status", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "Stores real-time alerts for users.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The recipient user ID." },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string", "enum": ["Info", "Success", "Warning", "Error"] },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "title", "message", "type", "read", "createdAt"]
+    },
+    "CaseWorkspace": {
+      "title": "Case Workspace",
+      "description": "Stores collaborative case data between advocate and client.",
+      "type": "object",
+      "properties": {
+        "advocateId": { "type": "string" },
+        "clientId": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["Active", "Closed", "Archived"] },
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "completed": { "type": "boolean" },
+              "date": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["advocateId", "clientId", "title", "status", "createdAt"]
+    },
+    "Message": {
+      "title": "Workspace Message",
+      "description": "Stores chat messages in a case workspace.",
+      "type": "object",
+      "properties": {
+        "workspaceId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["workspaceId", "senderId", "text", "createdAt"]
+    },
+    "SystemLog": {
+      "title": "System Log",
+      "description": "Stores audit trail for system events.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "ip": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["action", "createdAt"]
+    },
+    "AdvocateVerification": {
+      "title": "Advocate Verification Request",
+      "description": "Stores verification requests for advocates.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "barId": { "type": "string" },
+        "certificateUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["Pending", "Approved", "Rejected"] },
+        "adminFeedback": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "barId", "certificateUrl", "status", "createdAt"]
+    },
+    "LegalQA": {
+      "title": "Legal Q&A Session",
+      "description": "Stores a single interaction with the Legal Research Agent.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The ID of the user who asked the question." },
+        "query": { "type": "string", "description": "The user's legal question." },
+        "response": { "type": "string", "description": "The AI-generated legal response." },
+        "cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "query", "response", "createdAt"]
+    },
+    "DocumentAudit": {
+      "title": "Document Audit Report",
+      "description": "Stores the results of a document audit.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "fileName": { "type": "string" },
+        "report": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "fileName", "report", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles indexed by their unique ID."
+    },
+    "/legal_qa/{qaId}": {
+      "schema": "LegalQA",
+      "description": "Legal research history."
+    },
+    "/document_audits/{auditId}": {
+      "schema": "DocumentAudit",
+      "description": "History of audited documents."
+    },
+    "/case_searches/{searchId}": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "uid": { "type": "string" },
+          "query": { "type": "string" },
+          "resultCount": { "type": "number" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["uid", "query", "createdAt"]
+      },
+      "description": "History of case searches performed by the user."
+    },
+    "/consultation_requests/{requestId}": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "uid": { "type": "string" },
+          "advocateId": { "type": "string" },
+          "advocateName": { "type": "string" },
+          "status": { "type": "string", "enum": ["Pending", "Accepted", "Rejected"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["uid", "advocateId", "status", "createdAt"]
+      },
+      "description": "Consultation requests sent by citizens to advocates."
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "Real-time alerts for users."
+    },
+    "/case_workspaces/{workspaceId}": {
+      "schema": "CaseWorkspace",
+      "description": "Collaborative case workspaces."
+    },
+    "/case_workspaces/{workspaceId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages within a case workspace."
+    },
+    "/system_logs/{logId}": {
+      "schema": "SystemLog",
+      "description": "Audit trail of system actions."
+    },
+    "/advocate_verifications/{verificationId}": {
+      "schema": "AdvocateVerification",
+      "description": "Advocate verification requests."
+    }
+  }
+}
