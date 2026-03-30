@@ -32,9 +32,19 @@ export default function Dashboard({ user }: DashboardProps) {
         return [
           { icon: <LayoutDashboard size={18} />, label: "Dashboard", path: "/dashboard" },
           { icon: <FileText size={18} />, label: "Document Analyzer", path: "/document-auditor" },
+          { icon: <BookOpen size={18} />, label: "Understanding", path: "/understanding" },
           { icon: <Search size={18} />, label: "Legal Q&A", path: "/legal-qa" },
           { icon: <Search size={18} />, label: "Case Explorer", path: "/case-explorer" },
+          { icon: <Scale size={18} />, label: "Court Prep", path: "/court-prep" },
           { icon: <MessageSquare size={18} />, label: "Advocate Connect", path: "/advocate-connect" },
+        ];
+      case "Student":
+        return [
+          { icon: <LayoutDashboard size={18} />, label: "Dashboard", path: "/dashboard" },
+          { icon: <Scale size={18} />, label: "Mock Case Simulator", path: "/mock-case" },
+          { icon: <BookOpen size={18} />, label: "Case Studies Library", path: "/case-studies" },
+          { icon: <BookOpen size={18} />, label: "Learning Hub", path: "/learning-hub" },
+          { icon: <HelpCircle size={18} />, label: "Practice Questions", path: "/practice" },
         ];
       case "Advocate":
         return [
@@ -43,6 +53,7 @@ export default function Dashboard({ user }: DashboardProps) {
           { icon: <FileText size={18} />, label: "Case Workspace", path: "/case-workspace" },
           { icon: <Search size={18} />, label: "Legal Research", path: "/case-explorer" },
           { icon: <FileText size={18} />, label: "AI Drafting", path: "/advocate/drafting" },
+          { icon: <UserCircle size={18} />, label: "Profile", path: "/profile" },
         ];
       case "Admin":
         return [
@@ -59,6 +70,13 @@ export default function Dashboard({ user }: DashboardProps) {
 
   const getDashboardCards = () => {
     switch (user.role) {
+      case "Student":
+        return [
+          { title: "Mock Case", desc: "Test your skills in a simulated courtroom.", icon: <Scale />, path: "/mock-case" },
+          { title: "Case Studies", desc: "Analyze landmark Indian legal judgments.", icon: <BookOpen />, path: "/case-studies" },
+          { title: "Learning Hub", desc: "AI-powered legal education modules.", icon: <Sparkles />, path: "/learning-hub" },
+          { title: "Practice", desc: "AI-generated quizzes on legal topics.", icon: <HelpCircle />, path: "/practice" }
+        ];
       case "Advocate":
         return [
           { title: "Client Requests", desc: "Manage incoming consultation requests.", icon: <MessageSquare />, path: "/client-requests" },
@@ -83,6 +101,13 @@ export default function Dashboard({ user }: DashboardProps) {
   };
 
   const getRecentActivity = () => {
+    if (user.role === "Student") {
+      return [
+        { title: "Constitutional Law Quiz", desc: "Completed with 80% accuracy • 1 hour ago", icon: <HelpCircle /> },
+        { title: "Mock Case: Property Dispute", desc: "Verdict: A+ • Yesterday", icon: <Scale /> },
+        { title: "Kesavananda Bharati Analysis", desc: "Read 2 days ago", icon: <BookOpen /> }
+      ];
+    }
     if (user.role === "Advocate") {
       return [
         { title: "New Request: Property Dispute", desc: "From: Anjali Sharma • 30 mins ago", icon: <MessageSquare /> },
@@ -97,10 +122,6 @@ export default function Dashboard({ user }: DashboardProps) {
         { title: "Report Generated", desc: "Weekly platform usage summary", icon: <FileText /> }
       ];
     }
-    return [
-      { title: "Welcome to LawBridge", desc: "Start exploring legal resources", icon: <Sparkles /> },
-      { title: "Profile Setup", desc: "Complete your profile information", icon: <UserCircle /> }
-    ];
   };
 
   const links = getSidebarLinks();
@@ -349,11 +370,11 @@ export default function Dashboard({ user }: DashboardProps) {
         <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 sticky top-32">
           <div className="flex items-center gap-4 mb-10 pb-8 border-b border-gray-100">
             <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold text-lg">
-              {user.name?.charAt(0).toUpperCase() || "U"}
+              {user.name.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 className="font-bold text-primary">{user.name || "User"}</h3>
-              <p className="text-xs text-gray-400">{user.role || "Guest"} Portal</p>
+              <h3 className="font-bold text-primary">{user.name}</h3>
+              <p className="text-xs text-gray-400">{user.role} Portal</p>
             </div>
           </div>
 
@@ -387,10 +408,10 @@ export default function Dashboard({ user }: DashboardProps) {
       {/* Main Dashboard Content */}
       <div className="flex-grow space-y-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold serif text-primary">Welcome back, {(user.name || "User").split(' ')[0]}</h1>
+          <h1 className="text-4xl font-bold serif text-primary">Welcome back, {user.name.split(' ')[0]}</h1>
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <Clock size={16} />
-            Last active: Just now
+            Last active: 2 hours ago
           </div>
         </div>
 

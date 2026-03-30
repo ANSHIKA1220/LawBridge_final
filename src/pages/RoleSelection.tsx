@@ -7,16 +7,23 @@ const roles = [
   {
     id: "Citizen",
     title: "Citizen",
-    desc: "Access document analysis, legal Q&A, and case explorer.",
+    desc: "Access document analysis, legal Q&A, and court prep.",
     icon: <User className="text-purple-600" />,
     bg: "bg-purple-50"
   },
   {
     id: "Advocate",
     title: "Advocate",
-    desc: "Manage client requests, case workspaces, and AI drafting.",
+    desc: "Manage client requests, case workspaces, and templates.",
     icon: <Scale className="text-orange-600" />,
     bg: "bg-orange-50"
+  },
+  {
+    id: "Student",
+    title: "Student",
+    desc: "Practice mock court, explore cases, and learn with AI.",
+    icon: <GraduationCap className="text-indigo-600" />,
+    bg: "bg-indigo-50"
   },
   {
     id: "Admin",

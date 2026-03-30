@@ -167,18 +167,7 @@ export default function SystemLogs({ user: adminUser }: { user: User }) {
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-2 text-xs text-gray-500">
                         <Clock size={14} />
-                        {log.createdAt ? (
-                          (() => {
-                            try {
-                              const date = log.createdAt.seconds 
-                                ? new Date(log.createdAt.seconds * 1000) 
-                                : new Date(log.createdAt);
-                              return isNaN(date.getTime()) ? "N/A" : format(date, "HH:mm:ss, MMM d");
-                            } catch (e) {
-                              return "N/A";
-                            }
-                          })()
-                        ) : "N/A"}
+                        {log.createdAt ? format(new Date(log.createdAt.seconds * 1000), "HH:mm:ss, MMM d") : "N/A"}
                       </div>
                     </td>
                     <td className="px-8 py-6">

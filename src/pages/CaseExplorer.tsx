@@ -109,8 +109,10 @@ export default function CaseExplorer({ user }: { user: User }) {
             {[
               { icon: <LayoutDashboard size={18} />, label: "Dashboard", path: "/dashboard" },
               { icon: <FileText size={18} />, label: "Document Analyzer", path: "/document-auditor" },
+              { icon: <BookOpen size={18} />, label: "Understanding", path: "/understanding" },
               { icon: <Search size={18} />, label: "Legal Q&A", path: "/legal-qa" },
               { icon: <Search size={18} />, label: "Case Explorer", path: "/case-explorer" },
+              { icon: <Scale size={18} />, label: "Court Prep", path: "/court-prep" },
               { icon: <MessageSquare size={18} />, label: "Advocate Connect", path: "/advocate-connect" },
             ].map((link, idx) => (
               <Link

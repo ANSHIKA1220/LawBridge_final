@@ -14,7 +14,6 @@ import { collection, query, where, onSnapshot, orderBy, updateDoc, doc, deleteDo
 import { db } from "../firebase";
 import { User } from "../App";
 import { format } from "date-fns";
-import { handleFirestoreError, OperationType } from "../lib/firestore-errors";
 
 interface Notification {
   id: string;
@@ -40,8 +39,6 @@ export default function NotificationCenter({ user }: { user: User }) {
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const notifData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Notification));
         setNotifications(notifData);
-      }, (error) => {
-        handleFirestoreError(error, OperationType.LIST, "notifications");
       });
       return () => unsubscribe();
     }
@@ -127,18 +124,7 @@ export default function NotificationCenter({ user }: { user: User }) {
                             <p className="text-xs text-gray-500 leading-relaxed mb-2">{n.message}</p>
                             <div className="flex items-center gap-2 text-[10px] text-gray-400">
                               <Clock size={12} />
-                              {n.createdAt ? (
-                                (() => {
-                                  try {
-                                    const date = n.createdAt.seconds 
-                                      ? new Date(n.createdAt.seconds * 1000) 
-                                      : new Date(n.createdAt);
-                                    return isNaN(date.getTime()) ? "..." : format(date, "HH:mm, MMM d");
-                                  } catch (e) {
-                                    return "...";
-                                  }
-                                })()
-                              ) : "..."}
+                              {n.createdAt ? format(new Date(n.createdAt.seconds * 1000), "HH:mm, MMM d") : "..."}
                             </div>
                           </div>
                         </div>

@@ -22,6 +22,7 @@ export default function Layout({ children, user, onLogout }: LayoutProps) {
               LawBridge<span className="text-accent">.</span>
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
+              <Link to="/#how-it-works" className="hover:text-primary transition-colors">How It Works</Link>
               <Link to="/#features" className="hover:text-primary transition-colors">Features</Link>
               <Link to="/#about" className="hover:text-primary transition-colors">About</Link>
             </nav>
@@ -90,10 +91,10 @@ export default function Layout({ children, user, onLogout }: LayoutProps) {
           <div>
             <h4 className="text-xs font-bold uppercase tracking-widest text-accent mb-6">Platform</h4>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li><Link to="/legal-qa" className="hover:text-white transition-colors">Legal Q&A</Link></li>
+              <li><Link to="/legal-qa" className="hover:text-white transition-colors">Case Search</Link></li>
               <li><Link to="/document-auditor" className="hover:text-white transition-colors">Doc Analysis</Link></li>
-              <li><Link to="/case-explorer" className="hover:text-white transition-colors">Case Explorer</Link></li>
-              <li><Link to="/advocate-connect" className="hover:text-white transition-colors">Advocate Connect</Link></li>
+              <li><Link to="/dashboard" className="hover:text-white transition-colors">Script Gen</Link></li>
+              <li><Link to="/dashboard" className="hover:text-white transition-colors">Advocate Connect</Link></li>
             </ul>
           </div>
 

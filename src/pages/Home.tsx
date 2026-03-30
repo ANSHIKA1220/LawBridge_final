@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle2, FileText, Search, BookOpen, Scale, MessageSquare } from "lucide-react";
+import { ArrowRight, CheckCircle2, FileText, Search, BookOpen, Scale } from "lucide-react";
 import { motion } from "motion/react";
 
 export default function Home() {
@@ -97,8 +97,8 @@ export default function Home() {
             {[
               { icon: <Search className="text-accent" />, title: "Case Search", desc: "Instant access to millions of court records and precedents.", color: "bg-white" },
               { icon: <FileText className="text-white" />, title: "Document Analyzer", desc: "Detect hidden clauses and legal risks in seconds.", color: "bg-primary text-white" },
-              { icon: <MessageSquare className="text-white" />, title: "Advocate Connect", desc: "Consult with verified legal professionals.", color: "bg-primary text-white" },
-              { icon: <BookOpen className="text-accent" />, title: "Legal Q&A", desc: "Ask our AI agent about Indian law precedents.", color: "bg-white" }
+              { icon: <Scale className="text-white" />, title: "Court Scripts", desc: "AI-generated opening and closing statements based on facts.", color: "bg-primary text-white" },
+              { icon: <BookOpen className="text-accent" />, title: "Legal Learning", desc: "Understand procedures, etiquette, and required documents before court visits.", color: "bg-white" }
             ].map((feature, idx) => (
               <div key={idx} className={`${feature.color} p-8 rounded-xl border border-gray-100 shadow-sm`}>
                 <div className="mb-6">{feature.icon}</div>

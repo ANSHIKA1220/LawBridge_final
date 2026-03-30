@@ -52,10 +52,7 @@ app.post("/api/auth/login", (req, res) => {
 // Vite Integration
 if (process.env.NODE_ENV !== "production") {
   const vite = await createViteServer({
-    server: { 
-      middlewareMode: true,
-      hmr: process.env.DISABLE_HMR === "true" ? false : true,
-    },
+    server: { middlewareMode: true },
     appType: "spa",
   });
   app.use(vite.middlewares);

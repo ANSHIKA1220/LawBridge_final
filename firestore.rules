@@ -77,9 +77,8 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() &&
-        ((request.auth.token.email == "anshikashrivastava0304@gmail.com" && request.auth.token.email_verified == true) ||
-         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
-          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin'));
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin' ||
+          (request.auth.token.email == "anshikashrivastava0304@gmail.com" && request.auth.token.email_verified == true));
     }
 
     function isValidEmail(email) {
