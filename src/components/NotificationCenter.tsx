@@ -14,6 +14,7 @@ import { collection, query, where, onSnapshot, orderBy, updateDoc, doc, deleteDo
 import { db } from "../firebase";
 import { User } from "../App";
 import { format } from "date-fns";
+import { handleFirestoreError, OperationType } from "../lib/firestore-errors";
 
 interface Notification {
   id: string;
@@ -39,6 +40,8 @@ export default function NotificationCenter({ user }: { user: User }) {
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const notifData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Notification));
         setNotifications(notifData);
+      }, (error) => {
+        handleFirestoreError(error, OperationType.LIST, "notifications");
       });
       return () => unsubscribe();
     }

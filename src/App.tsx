@@ -8,6 +8,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "./firebase";
+import { handleFirestoreError, OperationType } from "./lib/firestore-errors";
 import Home from "./pages/Home";
 import RoleSelection from "./pages/RoleSelection";
 import Auth from "./pages/Auth";
@@ -84,7 +85,7 @@ export default function App() {
           }
           setLoading(false);
         }, (error) => {
-          console.error("User snapshot error:", error);
+          handleFirestoreError(error, OperationType.GET, `users/${firebaseUser.uid}`);
           setLoading(false);
         });
       } else {
