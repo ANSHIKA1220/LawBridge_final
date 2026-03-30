@@ -44,8 +44,9 @@ export default function AIDrafting({ user }: { user: User }) {
     if (!context.trim() || isGenerating) return;
 
     setIsGenerating(true);
+    setDraft("");
     try {
-      const model = ai.models.generateContent({
+      const stream = await ai.models.generateContentStream({
         model: "gemini-3-flash-preview",
         contents: `You are an expert Indian legal drafting assistant. 
         Draft a professional ${selectedType.label} based on the following context:
@@ -62,8 +63,12 @@ export default function AIDrafting({ user }: { user: User }) {
         }
       });
 
-      const response = await model;
-      setDraft(response.text);
+      let fullText = "";
+      for await (const chunk of stream) {
+        const chunkText = chunk.text;
+        fullText += chunkText;
+        setDraft(fullText);
+      }
 
       // Log the action
       await addDoc(collection(db, "system_logs"), {

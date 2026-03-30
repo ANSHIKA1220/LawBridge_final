@@ -15,15 +15,8 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import LegalQA from "./pages/LegalQA";
 import DocumentAuditor from "./pages/DocumentAuditor";
-import Understanding from "./pages/Understanding";
 import CaseExplorer from "./pages/CaseExplorer";
-import CourtPrep from "./pages/CourtPrep";
 import AdvocateConnect from "./pages/AdvocateConnect";
-import MockCaseSimulator from "./pages/MockCaseSimulator";
-import CaseStudiesLibrary from "./pages/CaseStudiesLibrary";
-import LearningHub from "./pages/LearningHub";
-import PracticeQuestions from "./pages/PracticeQuestions";
-import Placeholder from "./pages/Placeholder";
 import Layout from "./components/Layout";
 
 // New Pages
@@ -35,7 +28,7 @@ import ClientRequests from "./pages/advocate/ClientRequests";
 import CaseWorkspace from "./pages/advocate/CaseWorkspace";
 import AIDrafting from "./pages/advocate/AIDrafting";
 
-export type UserRole = "Citizen" | "Student" | "Advocate" | "Admin";
+export type UserRole = "Citizen" | "Advocate" | "Admin";
 
 export interface User {
   uid: string;
@@ -145,36 +138,12 @@ export default function App() {
               element={user ? <DocumentAuditor user={user} /> : <Navigate to="/roles" />} 
             />
             <Route 
-              path="/understanding" 
-              element={user ? <Understanding user={user} /> : <Navigate to="/roles" />} 
-            />
-            <Route 
               path="/case-explorer" 
               element={user ? <CaseExplorer user={user} /> : <Navigate to="/roles" />} 
             />
             <Route 
-              path="/court-prep" 
-              element={user ? <CourtPrep user={user} /> : <Navigate to="/roles" />} 
-            />
-            <Route 
               path="/advocate-connect" 
               element={user ? <AdvocateConnect user={user} /> : <Navigate to="/roles" />} 
-            />
-            <Route 
-              path="/mock-case" 
-              element={user ? <MockCaseSimulator user={user} /> : <Navigate to="/roles" />} 
-            />
-            <Route 
-              path="/case-studies" 
-              element={user ? <CaseStudiesLibrary user={user} /> : <Navigate to="/roles" />} 
-            />
-            <Route 
-              path="/learning-hub" 
-              element={user ? <LearningHub user={user} /> : <Navigate to="/roles" />} 
-            />
-            <Route 
-              path="/practice" 
-              element={user ? <PracticeQuestions user={user} /> : <Navigate to="/roles" />} 
             />
             
             {/* Admin Routes */}
@@ -187,10 +156,6 @@ export default function App() {
             <Route path="/client-requests" element={user?.role === "Advocate" ? <ClientRequests user={user} /> : <Navigate to="/dashboard" />} />
             <Route path="/case-workspace" element={user ? <CaseWorkspace user={user} /> : <Navigate to="/roles" />} />
             <Route path="/advocate/drafting" element={user?.role === "Advocate" ? <AIDrafting user={user} /> : <Navigate to="/dashboard" />} />
-
-            {/* Placeholder Routes */}
-            <Route path="/templates" element={user ? <Placeholder user={user} title="Templates" /> : <Navigate to="/roles" />} />
-            <Route path="/profile" element={user ? <Placeholder user={user} title="Profile" /> : <Navigate to="/roles" />} />
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

@@ -82,7 +82,7 @@ export default function LegalQA({ user }: { user: User }) {
       setThinkingStatus("Analyzing BNS/BNSS and synthesizing answer...");
       
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
-      const model = "gemini-3.1-pro-preview";
+      const model = "gemini-3-flash-preview";
       
       const systemInstruction = `You are a Senior Legal-Tech Specialist for "Law Bridge". 
       Your goal is to provide accurate legal information based on Indian Law (IPC, CrPC, and the new BNS/BNSS).
@@ -96,31 +96,46 @@ export default function LegalQA({ user }: { user: User }) {
       - Include a standard legal disclaimer: "Disclaimer: This is for informational purposes and not professional legal advice."
       - Be concise and professional.`;
 
-      const chat = ai.chats.create({
+      const stream = await ai.models.generateContentStream({
         model,
+        contents: [
+          { role: "user", parts: [{ text: userMessage }] }
+        ],
         config: { systemInstruction },
-        history: messages.map(m => ({
-          role: m.role === "user" ? "user" : "model",
-          parts: [{ text: m.text }]
-        })),
       });
 
-      const result = await chat.sendMessage({ message: userMessage });
-      const responseText = result.text;
+      let fullText = "";
+      setMessages(prev => [...prev, { role: "model", text: "" }]);
+
+      for await (const chunk of stream) {
+        const chunkText = chunk.text;
+        fullText += chunkText;
+        setMessages(prev => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1] = { 
+            ...newMessages[newMessages.length - 1], 
+            text: fullText 
+          };
+          return newMessages;
+        });
+      }
+
       const caseResults = cases.map((c: any) => ({ title: c.title, url: c.url }));
-      
-      setMessages(prev => [...prev, { 
-        role: "model", 
-        text: responseText,
-        cases: caseResults
-      }]);
+      setMessages(prev => {
+        const newMessages = [...prev];
+        newMessages[newMessages.length - 1] = { 
+          ...newMessages[newMessages.length - 1], 
+          cases: caseResults 
+        };
+        return newMessages;
+      });
 
       // Save to Firestore
       try {
         await addDoc(collection(db, "legal_qa"), {
           uid: user.uid,
           query: userMessage,
-          response: responseText,
+          response: fullText,
           cases: caseResults,
           createdAt: new Date()
         });
@@ -159,10 +174,8 @@ export default function LegalQA({ user }: { user: User }) {
             {[
               { icon: <LayoutDashboard size={18} />, label: "Dashboard", path: "/dashboard" },
               { icon: <FileText size={18} />, label: "Document Analyzer", path: "/document-auditor" },
-              { icon: <BookOpen size={18} />, label: "Understanding", path: "/understanding" },
               { icon: <Search size={18} />, label: "Legal Q&A", path: "/legal-qa" },
               { icon: <Search size={18} />, label: "Case Explorer", path: "/case-explorer" },
-              { icon: <Scale size={18} />, label: "Court Prep", path: "/court-prep" },
               { icon: <MessageSquare size={18} />, label: "Advocate Connect", path: "/advocate-connect" },
             ].map((link, idx) => (
               <Link

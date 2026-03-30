@@ -32,19 +32,9 @@ export default function Dashboard({ user }: DashboardProps) {
         return [
           { icon: <LayoutDashboard size={18} />, label: "Dashboard", path: "/dashboard" },
           { icon: <FileText size={18} />, label: "Document Analyzer", path: "/document-auditor" },
-          { icon: <BookOpen size={18} />, label: "Understanding", path: "/understanding" },
           { icon: <Search size={18} />, label: "Legal Q&A", path: "/legal-qa" },
           { icon: <Search size={18} />, label: "Case Explorer", path: "/case-explorer" },
-          { icon: <Scale size={18} />, label: "Court Prep", path: "/court-prep" },
           { icon: <MessageSquare size={18} />, label: "Advocate Connect", path: "/advocate-connect" },
-        ];
-      case "Student":
-        return [
-          { icon: <LayoutDashboard size={18} />, label: "Dashboard", path: "/dashboard" },
-          { icon: <Scale size={18} />, label: "Mock Case Simulator", path: "/mock-case" },
-          { icon: <BookOpen size={18} />, label: "Case Studies Library", path: "/case-studies" },
-          { icon: <BookOpen size={18} />, label: "Learning Hub", path: "/learning-hub" },
-          { icon: <HelpCircle size={18} />, label: "Practice Questions", path: "/practice" },
         ];
       case "Advocate":
         return [
@@ -53,7 +43,6 @@ export default function Dashboard({ user }: DashboardProps) {
           { icon: <FileText size={18} />, label: "Case Workspace", path: "/case-workspace" },
           { icon: <Search size={18} />, label: "Legal Research", path: "/case-explorer" },
           { icon: <FileText size={18} />, label: "AI Drafting", path: "/advocate/drafting" },
-          { icon: <UserCircle size={18} />, label: "Profile", path: "/profile" },
         ];
       case "Admin":
         return [
@@ -70,13 +59,6 @@ export default function Dashboard({ user }: DashboardProps) {
 
   const getDashboardCards = () => {
     switch (user.role) {
-      case "Student":
-        return [
-          { title: "Mock Case", desc: "Test your skills in a simulated courtroom.", icon: <Scale />, path: "/mock-case" },
-          { title: "Case Studies", desc: "Analyze landmark Indian legal judgments.", icon: <BookOpen />, path: "/case-studies" },
-          { title: "Learning Hub", desc: "AI-powered legal education modules.", icon: <Sparkles />, path: "/learning-hub" },
-          { title: "Practice", desc: "AI-generated quizzes on legal topics.", icon: <HelpCircle />, path: "/practice" }
-        ];
       case "Advocate":
         return [
           { title: "Client Requests", desc: "Manage incoming consultation requests.", icon: <MessageSquare />, path: "/client-requests" },
@@ -101,13 +83,6 @@ export default function Dashboard({ user }: DashboardProps) {
   };
 
   const getRecentActivity = () => {
-    if (user.role === "Student") {
-      return [
-        { title: "Constitutional Law Quiz", desc: "Completed with 80% accuracy • 1 hour ago", icon: <HelpCircle /> },
-        { title: "Mock Case: Property Dispute", desc: "Verdict: A+ • Yesterday", icon: <Scale /> },
-        { title: "Kesavananda Bharati Analysis", desc: "Read 2 days ago", icon: <BookOpen /> }
-      ];
-    }
     if (user.role === "Advocate") {
       return [
         { title: "New Request: Property Dispute", desc: "From: Anjali Sharma • 30 mins ago", icon: <MessageSquare /> },

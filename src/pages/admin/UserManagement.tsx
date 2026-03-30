@@ -97,7 +97,6 @@ export default function UserManagement({ user: adminUser }: { user: User }) {
         >
           <option value="All">All Roles</option>
           <option value="Citizen">Citizen</option>
-          <option value="Student">Student</option>
           <option value="Advocate">Advocate</option>
           <option value="Admin">Admin</option>
         </select>
@@ -152,7 +151,6 @@ export default function UserManagement({ user: adminUser }: { user: User }) {
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         u.role === 'Admin' ? 'bg-purple-100 text-purple-600' :
                         u.role === 'Advocate' ? 'bg-blue-100 text-blue-600' :
-                        u.role === 'Student' ? 'bg-orange-100 text-orange-600' :
                         'bg-gray-100 text-gray-600'
                       }`}>
                         {u.role}
